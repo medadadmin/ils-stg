@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mod-patron
+  name: mod-marc-migrations
   namespace: folio
 spec:
   minReadySeconds: 30
@@ -10,21 +10,24 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: deployment-folio-mod-patron
+      workload.user.cattle.io/workloadselector: apps.deployment-folio-mod-marc-migrations
   template:
     metadata:
       creationTimestamp: null
       labels:
         workload: folio_module
-        workload.user.cattle.io/workloadselector: deployment-folio-mod-patron
+        workload.user.cattle.io/workloadselector: apps.deployment-folio-mod-marc-migrations
+      namespace: folio
     spec:
-      affinity: {}
       containers:
       - envFrom:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-patron:6.2.4
+        - secretRef:
+            name: mod-marc-migrations
+            optional: false
+        image: folioorg/mod-marc-migrations:1.0.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10
@@ -32,17 +35,17 @@ spec:
             path: /admin/health
             port: 8081
             scheme: HTTP
-          periodSeconds: 30
+          periodSeconds: 20
           successThreshold: 1
           timeoutSeconds: 1
-        name: mod-patron
+        name: mod-marc-migrations
         readinessProbe:
-          failureThreshold: 5
+          failureThreshold: 10
           httpGet:
             path: /admin/health
             port: 8081
             scheme: HTTP
-          periodSeconds: 10
+          periodSeconds: 20
           successThreshold: 1
           timeoutSeconds: 1
         resources:
@@ -60,12 +63,12 @@ spec:
           readOnlyRootFilesystem: false
           runAsNonRoot: false
         startupProbe:
-          failureThreshold: 30
+          failureThreshold: 100
           httpGet:
             path: /admin/health
             port: 8081
             scheme: HTTP
-          initialDelaySeconds: 300
+          initialDelaySeconds: 600
           periodSeconds: 30
           successThreshold: 1
           timeoutSeconds: 1
