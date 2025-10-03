@@ -22,7 +22,7 @@ spec:
             - secretRef:
                 name: db-connect
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-resources-dedup:1.8.9
+          image: jed.ocir.io/axhxgarudf1b/mod-resources-dedup:2.2.1
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10

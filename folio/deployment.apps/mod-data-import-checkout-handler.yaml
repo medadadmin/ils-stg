@@ -19,7 +19,7 @@ spec:
       namespace: folio
     spec:
       containers:
-        - image: jed.ocir.io/axhxgarudf1b/mod-data-import-checkout-handler:1.2.5
+        - image: jed.ocir.io/axhxgarudf1b/mod-data-import-checkout-handler:1.2.6
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10

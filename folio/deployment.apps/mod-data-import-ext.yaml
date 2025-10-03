@@ -22,7 +22,7 @@ spec:
             - secretRef:
                 name: db-connect
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-data-import-ext:1.5.4
+          image: jed.ocir.io/axhxgarudf1b/mod-data-import-ext:1.5.5
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10

@@ -28,7 +28,7 @@ spec:
             - configMapRef:
                 name: mod-portal-ingestor
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-portal-ingestor:1.5.4
+          image: jed.ocir.io/axhxgarudf1b/mod-portal-ingestor:1.7.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10

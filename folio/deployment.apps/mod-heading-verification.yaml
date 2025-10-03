@@ -22,7 +22,7 @@ spec:
             - configMapRef:
                 name: mod-heading-verification
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-heading-verification:2.6.2
+          image: jed.ocir.io/axhxgarudf1b/mod-heading-verification:2.6.3
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10

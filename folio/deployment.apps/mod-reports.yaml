@@ -27,7 +27,7 @@ spec:
             - secretRef:
                 name: mod-reports
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-reports:1.5.9
+          image: jed.ocir.io/axhxgarudf1b/mod-reports:2.0.9
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
