@@ -36,7 +36,7 @@ spec:
         - secretRef:
             name: mod-search
             optional: false
-        image: folioorg/mod-search:5.0.6
+        image: jed.ocir.io/axhxgarudf1b/mod-search:5.0.5.1.0.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10
