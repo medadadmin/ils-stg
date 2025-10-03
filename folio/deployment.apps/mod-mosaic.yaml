@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mod-oai-pmh
+  name: mod-mosaic
   namespace: folio
 spec:
   minReadySeconds: 30
@@ -10,21 +10,24 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: deployment-folio-mod-oai-pmh
+      workload.user.cattle.io/workloadselector: deployment-folio-mod-mosaic
   template:
     metadata:
       creationTimestamp: null
       labels:
         workload: folio_module
-        workload.user.cattle.io/workloadselector: deployment-folio-mod-oai-pmh
+        workload.user.cattle.io/workloadselector: deployment-folio-mod-mosaic
+      namespace: folio
     spec:
-      affinity: {}
       containers:
       - envFrom:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-oai-pmh:3.15.3
+        - secretRef:
+            name: mod-mosaic
+            optional: false
+        image: folioorg/mod-mosaic:1.0.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10
@@ -35,14 +38,14 @@ spec:
           periodSeconds: 30
           successThreshold: 1
           timeoutSeconds: 1
-        name: mod-oai-pmh
+        name: mod-mosaic
         readinessProbe:
-          failureThreshold: 5
+          failureThreshold: 10
           httpGet:
             path: /admin/health
             port: 8081
             scheme: HTTP
-          periodSeconds: 10
+          periodSeconds: 20
           successThreshold: 1
           timeoutSeconds: 1
         resources:
@@ -60,12 +63,12 @@ spec:
           readOnlyRootFilesystem: false
           runAsNonRoot: false
         startupProbe:
-          failureThreshold: 30
+          failureThreshold: 60
           httpGet:
             path: /admin/health
             port: 8081
             scheme: HTTP
-          initialDelaySeconds: 300
+          initialDelaySeconds: 600
           periodSeconds: 30
           successThreshold: 1
           timeoutSeconds: 1
@@ -78,3 +81,4 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
+

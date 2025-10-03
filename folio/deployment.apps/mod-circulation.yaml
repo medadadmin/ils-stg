@@ -30,7 +30,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-circulation:24.3.4
+        image: folioorg/mod-circulation:24.4.11
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

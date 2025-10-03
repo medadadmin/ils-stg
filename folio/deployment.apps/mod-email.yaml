@@ -24,7 +24,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: false
-        image: folioorg/mod-email:1.18.0
+        image: folioorg/mod-email:1.19.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

@@ -24,7 +24,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-kb-ebsco-java:5.0.0
+        image: folioorg/mod-kb-ebsco-java:6.0.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 20

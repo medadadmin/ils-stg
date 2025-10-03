@@ -24,7 +24,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-courses:1.4.11
+        image: folioorg/mod-courses:1.4.12
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

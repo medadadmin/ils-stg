@@ -23,7 +23,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: false
-        image: folioorg/mod-data-import:3.2.3
+        image: folioorg/mod-data-import:3.3.5
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 30

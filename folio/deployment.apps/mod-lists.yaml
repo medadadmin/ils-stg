@@ -28,7 +28,7 @@ spec:
         - secretRef:
             name: mod-lists
             optional: false
-        image: folioorg/mod-lists:3.0.5
+        image: folioorg/mod-lists:3.1.5
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

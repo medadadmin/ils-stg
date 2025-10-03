@@ -24,7 +24,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-finance-storage:8.7.3
+        image: folioorg/mod-finance-storage:8.8.4
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

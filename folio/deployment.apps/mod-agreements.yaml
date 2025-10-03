@@ -37,7 +37,7 @@ spec:
         - secretRef:
             name: mod-agreements
             optional: false
-        image: folioorg/mod-agreements:7.1.3
+        image: folioorg/mod-agreements:7.2.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

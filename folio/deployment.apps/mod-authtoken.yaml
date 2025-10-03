@@ -27,7 +27,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-authtoken:2.16.1
+        image: folioorg/mod-authtoken:2.16.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

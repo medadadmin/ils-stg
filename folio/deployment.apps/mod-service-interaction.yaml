@@ -41,7 +41,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-service-interaction:4.1.1
+        image: folioorg/mod-service-interaction:4.2.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

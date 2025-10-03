@@ -27,7 +27,7 @@ spec:
         - secretRef:
             name: mod-bulk-operations
             optional: false
-        image: folioorg/mod-bulk-operations:2.1.8
+        image: folioorg/mod-bulk-operations:2.2.6
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

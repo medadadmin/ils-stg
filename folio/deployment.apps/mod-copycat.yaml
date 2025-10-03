@@ -22,7 +22,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: false
-        image: folioorg/mod-copycat:1.7.0
+        image: folioorg/mod-copycat:1.8.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

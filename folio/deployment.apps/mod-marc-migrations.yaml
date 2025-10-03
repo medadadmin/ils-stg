@@ -27,7 +27,7 @@ spec:
         - secretRef:
             name: mod-marc-migrations
             optional: false
-        image: folioorg/mod-marc-migrations:1.0.1
+        image: folioorg/mod-marc-migrations:2.0.3
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

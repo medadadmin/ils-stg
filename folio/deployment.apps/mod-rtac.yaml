@@ -24,7 +24,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-rtac:3.7.0
+        image: folioorg/mod-rtac:3.8.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

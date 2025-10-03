@@ -37,7 +37,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-inventory-storage:28.0.3
+        image: folioorg/mod-inventory-storage:29.0.12
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

@@ -28,7 +28,7 @@ spec:
         - secretRef:
             name: mod-remote-storage
             optional: false
-        image: folioorg/mod-remote-storage:3.3.2
+        image: folioorg/mod-remote-storage:3.4.3
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

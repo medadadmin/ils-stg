@@ -26,7 +26,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-batch-print:1.2.0
+        image: folioorg/mod-batch-print:1.3.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

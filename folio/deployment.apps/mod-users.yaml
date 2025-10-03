@@ -29,7 +29,7 @@ spec:
         - secretRef:
             name: mod-users
             optional: false
-        image: folioorg/mod-users:19.4.4
+        image: folioorg/mod-users:19.5.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

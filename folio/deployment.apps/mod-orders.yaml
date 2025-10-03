@@ -24,7 +24,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-orders:12.9.5
+        image: folioorg/mod-orders:13.0.7
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

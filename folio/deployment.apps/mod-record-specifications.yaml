@@ -27,7 +27,7 @@ spec:
         - secretRef:
             name: mod-record-specifications
             optional: false
-        image: folioorg/mod-record-specifications:1.0.2
+        image: folioorg/mod-record-specifications:2.0.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

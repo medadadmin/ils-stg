@@ -36,7 +36,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-source-record-storage:5.9.3
+        image: folioorg/mod-source-record-storage:5.10.10
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

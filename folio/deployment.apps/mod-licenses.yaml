@@ -37,7 +37,7 @@ spec:
         - secretRef:
             name: mod-licenses
             optional: false
-        image: folioorg/mod-licenses:6.1.2
+        image: folioorg/mod-licenses:6.2.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

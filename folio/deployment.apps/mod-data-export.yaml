@@ -30,7 +30,7 @@ spec:
         - secretRef:
             name: mod-data-export
             optional: false
-        image: folioorg/mod-data-export:5.1.5
+        image: folioorg/mod-data-export:5.2.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

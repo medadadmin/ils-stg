@@ -23,7 +23,7 @@ spec:
             - secretRef:
                 name: db-connect
                 optional: true
-          image: folioorg/mod-login-saml:2.1.2
+          image: folioorg/mod-login-saml:2.9.4
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10

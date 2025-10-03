@@ -24,7 +24,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-patron-blocks:1.11.1
+        image: folioorg/mod-patron-blocks:1.12.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

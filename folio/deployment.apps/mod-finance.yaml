@@ -23,7 +23,7 @@ spec:
       - env:
         - name: TZ
           value: Africa/Cairo
-        image: folioorg/mod-finance:5.0.1
+        image: folioorg/mod-finance:5.1.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

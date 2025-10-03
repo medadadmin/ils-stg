@@ -24,7 +24,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-ebsconet:2.3.1
+        image: folioorg/mod-ebsconet:2.4.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

@@ -24,7 +24,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-patron:6.2.4
+        image: folioorg/mod-patron:6.3.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

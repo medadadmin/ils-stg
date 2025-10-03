@@ -24,7 +24,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-ncip:1.15.6
+        image: folioorg/mod-ncip:1.15.7
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

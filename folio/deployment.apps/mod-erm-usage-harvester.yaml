@@ -26,7 +26,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-erm-usage-harvester:5.0.1
+        image: folioorg/mod-erm-usage-harvester:5.1.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 20

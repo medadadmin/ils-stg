@@ -24,7 +24,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-invoice-storage:5.9.1
+        image: folioorg/mod-invoice-storage:6.0.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

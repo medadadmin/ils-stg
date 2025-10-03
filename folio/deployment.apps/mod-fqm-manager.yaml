@@ -28,7 +28,7 @@ spec:
         - secretRef:
             name: oci-object-storage
             optional: false
-        image: folioorg/mod-fqm-manager:3.0.7
+        image: folioorg/mod-fqm-manager:4.0.13
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

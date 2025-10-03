@@ -29,7 +29,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: false
-        image: folioorg/mod-pubsub:2.15.3
+        image: folioorg/mod-pubsub:2.16.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

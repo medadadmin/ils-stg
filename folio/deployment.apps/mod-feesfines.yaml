@@ -23,7 +23,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-feesfines:19.2.1
+        image: folioorg/mod-feesfines:19.3.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

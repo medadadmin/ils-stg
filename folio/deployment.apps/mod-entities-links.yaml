@@ -27,7 +27,7 @@ spec:
         - secretRef:
             name: mod-entities-links
             optional: false
-        image: folioorg/mod-entities-links:3.1.2
+        image: folioorg/mod-entities-links:4.0.3
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

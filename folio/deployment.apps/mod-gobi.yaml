@@ -24,7 +24,7 @@ spec:
         - secretRef:
             name: db-connect
             optional: true
-        image: folioorg/mod-gobi:2.9.0
+        image: folioorg/mod-gobi:3.0.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10
