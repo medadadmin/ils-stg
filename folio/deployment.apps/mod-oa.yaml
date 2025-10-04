@@ -68,7 +68,7 @@ spec:
               cpu: "1"
               memory: 6000Mi
             requests:
-              cpu: 100m
+              cpu: 50m
               memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
@@ -96,3 +96,4 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
+      initContainers: []
