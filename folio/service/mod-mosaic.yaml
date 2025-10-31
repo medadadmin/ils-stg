@@ -12,4 +12,3 @@ spec:
     workload.user.cattle.io/workloadselector: deployment-folio-mod-mosaic
   sessionAffinity: None
   type: ClusterIP
-

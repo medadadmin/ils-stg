@@ -9,6 +9,10 @@ spec:
       port: 8081
       protocol: TCP
       targetPort: 9997
+    - name: default
+      port: 42
+      protocol: TCP
+      targetPort: 42
   selector:
     workload.user.cattle.io/workloadselector: deployment-folio-mod-z3950
   sessionAffinity: None

@@ -20,6 +20,14 @@ spec:
       namespace: folio
     spec:
       affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
         podAffinity: {}
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -33,11 +41,18 @@ spec:
                 topologyKey: kubernetes.io/hostname
               weight: 1
       containers:
-        - envFrom:
+        - env:
+            - name: JAVA_OPTIONS
+              value: '-Xms128m -Xmx9000m  '
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://otel-collector:8081
+            - name: MEDAD_UPDATE_ITEM_WITHOUT_SCOPE_PERMISSIONS_CHECK
+              value: "true"
+          envFrom:
             - secretRef:
                 name: db-connect
                 optional: true
-          image: jed.ocir.io/axhxgarudf1b/mod-inventory-storage:29.0.12.1.0.0
+          image: jed.ocir.io/axhxgarudf1b/mod-inventory-storage:29.0.12.1.0.1
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -60,7 +75,7 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: '1'
+              cpu: "1"
               memory: 6000Mi
             requests:
               cpu: 50m
@@ -93,4 +108,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

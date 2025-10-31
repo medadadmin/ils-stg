@@ -15,14 +15,34 @@ spec:
       creationTimestamp: null
       labels:
         workload.user.cattle.io/workloadselector: apps.deployment-folio-mod-worklists
-      namespace: folio
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
       containers:
-        - envFrom:
+        - env:
+            - name: OTEL_SERVICE_NAME
+              value: mod-worklists
+            - name: OTEL_JAVAAGENT_ENABLED
+              value: "true"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://otel-collector:8081
+          envFrom:
             - secretRef:
                 name: db-connect
+            - secretRef:
+                name: oci-object-storage
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-worklists:3.5.9
+            - secretRef:
+                name: mod-worklists
+                optional: false
+          image: jed.ocir.io/axhxgarudf1b/mod-worklists:3.8.8
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -50,10 +70,10 @@ spec:
           resources:
             limits:
               cpu: "1"
-              memory: 6000Mi
+              memory: 10000Mi
             requests:
-              cpu: 50m
-              memory: 512Mi
+              cpu: 100m
+              memory: 1000Mi
           securityContext:
             allowPrivilegeEscalation: false
             capabilities: {}
@@ -61,13 +81,13 @@ spec:
             readOnlyRootFilesystem: false
             runAsUser: 0
           startupProbe:
-            failureThreshold: 100
+            failureThreshold: 20
             httpGet:
               path: /admin/health
               port: 8081
               scheme: HTTP
-            initialDelaySeconds: 900
-            periodSeconds: 30
+            initialDelaySeconds: 30
+            periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
           stdin: true
@@ -81,4 +101,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

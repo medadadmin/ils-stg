@@ -18,15 +18,24 @@ spec:
         workload.user.cattle.io/workloadselector: deployment-folio-mod-quick-marc
       namespace: folio
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
       containers:
         - env:
             - name: spring.jpa.show-sql
-              value: 'true'
+              value: "true"
           envFrom:
             - secretRef:
                 name: db-connect
                 optional: true
-          image: folioorg/mod-quick-marc:7.0.0
+          image: jed.ocir.io/axhxgarudf1b/mod-quick-marc:7.0.0.1.0.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -49,7 +58,7 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: '1'
+              cpu: "1"
               memory: 6000Mi
             requests:
               cpu: 50m
@@ -82,4 +91,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

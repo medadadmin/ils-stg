@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-connect
+  namespace: folio
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 0
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: kafka-connect
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: kafka-connect
+      namespace: folio
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
+      containers:
+        - env:
+            - name: CONNECT_BOOTSTRAP_SERVERS
+              value: kafka2-0.kafka2-headless.kafka-cluster.svc.cluster.local:9092,kafka2-1.kafka2-headless.kafka-cluster.svc.cluster.local:9092,kafka2-2.kafka2-headless.kafka-cluster.svc.cluster.local:9092
+            - name: CONNECT_CONFIG_STORAGE_TOPIC
+              value: connect-configs
+            - name: CONNECT_GROUP_ID
+              value: kafka-connect
+            - name: CONNECT_KEY_CONVERTER
+              value: io.confluent.connect.avro.AvroConverter
+            - name: CONNECT_VALUE_CONVERTER
+              value: io.confluent.connect.avro.AvroConverter
+            - name: CONNECT_OFFSET_STORAGE_TOPIC
+              value: connect-offsets
+            - name: CONNECT_STATUS_STORAGE_TOPIC
+              value: connect-statuses
+            - name: CONNECT_PLUGIN_PATH
+              value: /usr/share/java
+            - name: CONNECT_REST_ADVERTISED_HOST_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
+            - name: CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL
+              value: http://<<schemaregistryserver>>:30092
+            - name: CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL
+              value: http://<<schemaregistryserver>>:30092
+          image: confluentinc/cp-kafka-connect:7.4.1
+          imagePullPolicy: IfNotPresent
+          name: kafka-connect
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

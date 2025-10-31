@@ -19,6 +19,14 @@ spec:
       namespace: folio
     spec:
       affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
         podAffinity: {}
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -32,11 +40,14 @@ spec:
                 topologyKey: kubernetes.io/hostname
               weight: 1
       containers:
-        - envFrom:
+        - env:
+            - name: NEW_RELIC_APP_NAME
+              value: mod-source-record-manager
+          envFrom:
             - secretRef:
                 name: db-connect
                 optional: false
-          image: folioorg/mod-source-record-manager:3.10.7
+          image: jed.ocir.io/axhxgarudf1b/mod-source-record-manager:3.10.7.1.0.1
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 30
@@ -59,7 +70,7 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: '2'
+              cpu: "2"
               memory: 10000Mi
             requests:
               cpu: 50m
@@ -92,4 +103,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

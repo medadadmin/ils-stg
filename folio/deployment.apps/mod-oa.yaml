@@ -20,6 +20,15 @@ spec:
       name: mod-oa
       namespace: folio
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
       containers:
         - env:
             - name: GRAILS_SERVER_HOST
@@ -28,6 +37,20 @@ spec:
               value: "8081"
             - name: server.port
               value: "8081"
+            - name: OKAPI_SERVICE_PORT
+              value: "9130"
+            - name: OKAPI_SERVICE_HOST
+              value: okapi
+            - name: JAVA_OPTIONS
+              value: -server -XX:+UseContainerSupport -XX:MaxRAMPercentage=55.0 -XX:+PrintFlagsFinal
+            - name: EVENTS_PUBLISHER_BOOTSTRAP_SERVERS
+              value: kafka2-headless.kafka-cluster.svc.cluster.local:9092
+            - name: EVENTS_CONSUMER_BOOTSTRAP_SERVERS
+              value: kafka2-headless.kafka-cluster.svc.cluster.local:9092
+            - name: EVENTS_PUBLISHER_ZK_CONNECT
+              value: kafka-zookeeper-headless:9092
+            - name: EVENTS_CONSUMER_ZK_CONNECT
+              value: kafka-zookeeper-headless:9092
           envFrom:
             - secretRef:
                 name: db-connect
@@ -96,4 +119,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

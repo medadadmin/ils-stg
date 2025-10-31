@@ -46,7 +46,7 @@ spec:
             timeoutSeconds: 5
           resources:
             limits:
-              cpu: '1'
+              cpu: "1"
               memory: 6000Mi
             requests:
               cpu: 50m
@@ -83,8 +83,16 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils
       volumes:
         - name: mod-data-import
           persistentVolumeClaim:
             claimName: medad-ils
-      initContainers: []

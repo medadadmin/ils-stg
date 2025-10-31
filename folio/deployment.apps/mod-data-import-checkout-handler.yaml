@@ -18,8 +18,21 @@ spec:
         workload.user.cattle.io/workloadselector: apps.deployment-folio-mod-data-import-checkout-handler
       namespace: folio
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
       containers:
-        - image: jed.ocir.io/axhxgarudf1b/mod-data-import-checkout-handler:1.2.6
+        - envFrom:
+            - secretRef:
+                name: db-connect
+                optional: true
+          image: jed.ocir.io/axhxgarudf1b/mod-data-import-checkout-handler:1.2.7
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -75,4 +88,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

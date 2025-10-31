@@ -17,12 +17,24 @@ spec:
         workload.user.cattle.io/workloadselector: apps.deployment-folio-mod-resources-dedup
       namespace: folio
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
       containers:
-        - envFrom:
+        - env:
+            - name: KAFKA_EVENTS_CONCURRENCY
+              value: "2"
+          envFrom:
             - secretRef:
                 name: db-connect
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-resources-dedup:2.2.1
+          image: jed.ocir.io/axhxgarudf1b/mod-resources-dedup:2.2.6
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -77,4 +89,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

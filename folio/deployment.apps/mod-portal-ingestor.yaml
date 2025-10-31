@@ -18,17 +18,28 @@ spec:
       namespace: folio
     spec:
       affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
         podAffinity: {}
         podAntiAffinity: {}
       containers:
-        - envFrom:
+        - env:
+            - name: LOGGING_LEVEL_ROOT
+              value: DEBUG
+          envFrom:
             - secretRef:
                 name: db-connect
                 optional: false
             - configMapRef:
                 name: mod-portal-ingestor
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-portal-ingestor:1.7.0
+          image: jed.ocir.io/axhxgarudf1b/mod-portal-ingestor:1.7.7
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -87,4 +98,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

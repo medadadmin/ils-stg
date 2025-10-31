@@ -9,6 +9,10 @@ spec:
       port: 8081
       protocol: TCP
       targetPort: 8081
+    - name: http1
+      port: 5701
+      protocol: TCP
+      targetPort: 5701
   selector:
     workload.user.cattle.io/workloadselector: deployment-folio-mod-erm-usage-harvester
   sessionAffinity: None

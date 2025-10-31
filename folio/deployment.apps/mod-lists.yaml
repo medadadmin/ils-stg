@@ -20,6 +20,15 @@ spec:
       name: mod-lists
       namespace: folio
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
       containers:
         - envFrom:
             - secretRef:
@@ -51,7 +60,7 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: '1'
+              cpu: "1"
               memory: 6000Mi
             requests:
               cpu: 50m
@@ -82,4 +91,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

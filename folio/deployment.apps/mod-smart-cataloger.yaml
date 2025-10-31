@@ -17,6 +17,15 @@ spec:
         workload.user.cattle.io/workloadselector: apps.deployment-folio-mod-smart-cataloger
       namespace: folio
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
       containers:
         - envFrom:
             - secretRef:
@@ -24,7 +33,7 @@ spec:
             - configMapRef:
                 name: mod-smart-cataloger
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-smart-cataloger:1.6.2
+          image: jed.ocir.io/axhxgarudf1b/mod-smart-cataloger:1.7.7
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -83,4 +92,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

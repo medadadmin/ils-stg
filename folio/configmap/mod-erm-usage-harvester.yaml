@@ -61,7 +61,9 @@ data:
           </gcp>
           <azure enabled="false">
           </azure>
-          <kubernetes enabled="false">
+          <kubernetes enabled="true">
+              <service-name>mod-erm-usage-harvester</service-name>
+              <namespace>folio</namespace>
           </kubernetes>
           <eureka enabled="false">
             <self-registration>true</self-registration>
@@ -331,8 +333,8 @@ data:
       </metrics>
 
       <sql>
-        <executor-pool-size>-1</executor-pool-size>
         <statement-timeout-millis>0</statement-timeout-millis>
+        <catalog-persistence-enabled>false</catalog-persistence-enabled>
       </sql>
     </hazelcast>
 kind: ConfigMap

@@ -17,16 +17,25 @@ spec:
       labels:
         workload: folio_module
         workload.user.cattle.io/workloadselector: deployment-folio-mod-licenses
+      namespace: folio
     spec:
-      affinity: {}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
       containers:
         - env:
             - name: GRAILS_SERVER_HOST
               value: mod-licenses
             - name: GRAILS_SERVER_PORT
-              value: '8080'
+              value: "8080"
             - name: server.port
-              value: '8081'
+              value: "8081"
           envFrom:
             - secretRef:
                 name: db-connect
@@ -64,7 +73,7 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: '1'
+              cpu: "1"
               memory: 6000Mi
             requests:
               cpu: 50m
@@ -95,4 +104,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

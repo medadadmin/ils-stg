@@ -6,9 +6,9 @@ metadata:
 spec:
   ports:
     - name: default
-      port: 8081
+      port: 42
       protocol: TCP
-      targetPort: 8081
+      targetPort: 42
   selector:
     workload.user.cattle.io/workloadselector: deployment-folio-mod-invoice
   sessionAffinity: None

@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: debezium
+  namespace: folio
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 0
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: apps.deployment-folio-debezium
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        workload.user.cattle.io/workloadselector: apps.deployment-folio-debezium
+      namespace: folio
+    spec:
+      containers:
+        - env:
+            - name: BOOTSTRAP_SERVERS
+              value: kafka2-headless.kafka-cluster.svc.cluster.local:9092
+            - name: GROUP_ID
+              value: "1"
+            - name: CONFIG_STORAGE_TOPIC
+              value: connect-configs
+            - name: STATUS_STORAGE_TOPIC
+              value: connect-statuses
+            - name: OFFSET_STORAGE_TOPIC
+              value: connect-offsets
+            - name: KEY_CONVERTER
+              value: org.apache.kafka.connect.json.JsonConverter
+            - name: VALUE_CONVERTER
+              value: org.apache.kafka.connect.json.JsonConverter
+            - name: ENABLE_DEBEZIUM_SCRIPTING
+              value: "true"
+            - name: CONNECT_TOPIC_CREATION_ENABLE
+              value: "true"
+            - name: OFFSET_STORAGE_REPLICATION_FACTOR
+              value: "3"
+            - name: CONFIG_STORAGE_REPLICATION_FACTOR
+              value: "3"
+            - name: STATUS_STORAGE_REPLICATION_FACTOR
+              value: "3"
+            - name: CONNECT_TOPIC_CREATION_DEFAULT_REPLICATION_FACTOR
+              value: "3"
+            - name: CONNECT_TOPIC_CREATION_DEFAULT_PARTITIONS
+              value: "3"
+            - name: CONNECT_TOPIC_CREATION_DEFAULT_CLEANUP_POLICY
+              value: compact
+          image: debezium/connect:3.0.0.Final
+          imagePullPolicy: Always
+          livenessProbe:
+            exec:
+              command:
+                - curl
+                - --silent
+                - --fail
+                - -X
+                - GET
+                - http://localhost:8083/connectors
+            failureThreshold: 5
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          name: container-0
+          readinessProbe:
+            exec:
+              command:
+                - curl
+                - --silent
+                - --fail
+                - -X
+                - GET
+                - http://localhost:8083/connectors
+            failureThreshold: 5
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

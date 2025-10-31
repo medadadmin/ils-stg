@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ils-mcp-server
+  namespace: folio
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: apps.deployment-folio-ils-mcp-server
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        workload.user.cattle.io/workloadselector: apps.deployment-folio-ils-mcp-server
+      namespace: folio
+    spec:
+      containers:
+        - env:
+            - name: MCP_PROXY_API
+              value: https://okapi.medadstg.com/
+            - name: TOKEN_SECRET
+              value: 823c6c1972b18720046e0e2c530f02ef567d97b42335def0ba10d8a35015097d7f7ed
+            - name: OUTLET_HTTP
+              value: "true"
+          image: jed.ocir.io/axhxgarudf1b/ils-mcp-server:v2.0.9
+          imagePullPolicy: Always
+          name: ils-mcp-server
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+        - name: dockerhub
+        - name: oracle-reg
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-ui
+  namespace: folio
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 0
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: apps.deployment-folio-admin-ui
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nginx
+        workload.user.cattle.io/workloadselector: apps.deployment-folio-admin-ui
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - platform
+      containers:
+        - env:
+            - name: BASE_API_URL
+              value: https://api-sep.medadstg.com
+            - name: TENANT
+              value: medad
+            - name: SSO_CLIENT_ID
+              value: sep-client
+            - name: SSO_URL
+              value: https://sso.medadstg.com/realms/medad
+            - name: DEFAULT_APP_LANG
+              value: en
+          image: jed.ocir.io/axhxgarudf1b/medad-sep-admin-ui:ils-v1.84.0
+          imagePullPolicy: Always
+          name: admin-ui
+          ports:
+            - containerPort: 80
+              name: 80tcp802
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 100m
+              memory: 4000Mi
+            requests:
+              cpu: 10m
+              memory: 128Mi
+          securityContext:
+            capabilities: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+        - name: oracle-reg
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

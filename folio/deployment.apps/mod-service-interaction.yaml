@@ -22,9 +22,9 @@ spec:
       containers:
         - env:
             - name: server.port
-              value: '8081'
+              value: "8081"
             - name: OKAPI_SERVICE_PORT
-              value: '9130'
+              value: "9130"
             - name: OKAPI_SERVICE_HOST
               value: okapi
             - name: JAVA_OPTIONS
@@ -68,7 +68,7 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: '1'
+              cpu: "1"
               memory: 6000Mi
             requests:
               cpu: 50m
@@ -99,4 +99,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

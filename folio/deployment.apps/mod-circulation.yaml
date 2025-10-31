@@ -18,19 +18,36 @@ spec:
         workload.user.cattle.io/workloadselector: deployment-folio-mod-circulation
       namespace: folio
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
       containers:
         - env:
             - name: JAVA_OPTIONS
               value: -Dhttp.port=8081
             - name: CHECK_OUT_BY_BARCODE_BY_MEDAD
-              value: 'false'
+              value: "false"
             - name: CHECK_IN_BY_BARCODE_BY_MEDAD
-              value: 'false'
+              value: "false"
+            - name: OTEL_SERVICE_NAME
+              value: mod-circulation
+            - name: OTEL_MANUAL_INSTRUMENTATION_ENABLED
+              value: "true"
+            - name: CIRCULATION_RUN_ASYNC_BY_MEDAD
+              value: "true"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://otel-collector:8081
           envFrom:
             - secretRef:
                 name: db-connect
                 optional: true
-          image: folioorg/mod-circulation:24.4.11
+          image: jed.ocir.io/axhxgarudf1b/mod-circulation:24.4.11.1.0.2
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -53,7 +70,7 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: '1'
+              cpu: "1"
               memory: 6000Mi
             requests:
               cpu: 50m
@@ -86,4 +103,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

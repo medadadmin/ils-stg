@@ -17,6 +17,15 @@ spec:
         workload.user.cattle.io/workloadselector: deployment-folio-mod-reports
       namespace: folio
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
       containers:
         - env:
             - name: DOCKER_CHROME_DRIVER_PATH
@@ -27,7 +36,7 @@ spec:
             - secretRef:
                 name: mod-reports
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-reports:2.0.9
+          image: jed.ocir.io/axhxgarudf1b/mod-reports:2.0.10
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -83,7 +92,7 @@ spec:
             - secretRef:
                 name: folio-analytics-queries
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/folio-analytics-queries:1.5.2
+          image: jed.ocir.io/axhxgarudf1b/folio-analytics-queries:1.5.7
           imagePullPolicy: IfNotPresent
           name: folio-analytics-queries
           resources:
@@ -95,3 +104,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

@@ -19,6 +19,14 @@ spec:
       namespace: folio
     spec:
       affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
         podAffinity: {}
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -32,7 +40,14 @@ spec:
                 topologyKey: kubernetes.io/hostname
               weight: 1
       containers:
-        - envFrom:
+        - env:
+            - name: NEW_RELIC_APP_NAME
+              value: mod-source-record-storage
+            - name: OTEL_SERVICE_NAME
+              value: mod-source-record-storage
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://otel-collector:8081
+          envFrom:
             - secretRef:
                 name: db-connect
                 optional: true
@@ -63,7 +78,7 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: '1'
+              cpu: "1"
               memory: 6000Mi
             requests:
               cpu: 50m
@@ -97,4 +112,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

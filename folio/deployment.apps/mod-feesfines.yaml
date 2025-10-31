@@ -18,12 +18,21 @@ spec:
         workload.user.cattle.io/workloadselector: deployment-folio-mod-feesfines
       namespace: folio
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
       containers:
         - envFrom:
             - secretRef:
                 name: db-connect
                 optional: true
-          image: folioorg/mod-feesfines:19.3.2
+          image: jed.ocir.io/axhxgarudf1b/mod-feesfines:19.3.2.1.0.2
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -46,7 +55,7 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: '1'
+              cpu: "1"
               memory: 6000Mi
             requests:
               cpu: 50m
@@ -79,4 +88,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

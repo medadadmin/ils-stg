@@ -17,6 +17,15 @@ spec:
         workload.user.cattle.io/workloadselector: apps.deployment-folio-mod-scheduler
       namespace: folio
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
       containers:
         - env:
             - name: DOCKER_CHROME_DRIVER_PATH
@@ -27,7 +36,7 @@ spec:
             - secretRef:
                 name: db-connect
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-scheduler:2.2.10
+          image: jed.ocir.io/axhxgarudf1b/mod-scheduler:2.3.4
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -82,4 +91,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

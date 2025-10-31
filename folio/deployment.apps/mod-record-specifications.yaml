@@ -24,9 +24,6 @@ spec:
             - secretRef:
                 name: db-connect
                 optional: true
-            - secretRef:
-                name: mod-record-specifications
-                optional: false
           image: folioorg/mod-record-specifications:2.0.2
           imagePullPolicy: IfNotPresent
           livenessProbe:
@@ -50,7 +47,7 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: '1'
+              cpu: "1"
               memory: 6000Mi
             requests:
               cpu: 50m
@@ -81,4 +78,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

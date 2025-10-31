@@ -23,7 +23,7 @@ spec:
         - env:
             - name: TZ
               value: Africa/Cairo
-          image: folioorg/mod-finance:5.1.1
+          image: jed.ocir.io/axhxgarudf1b/mod-finance:5.1.1.1.0.1
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -46,7 +46,7 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: '1'
+              cpu: "1"
               memory: 6000Mi
             requests:
               cpu: 50m
@@ -79,4 +79,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

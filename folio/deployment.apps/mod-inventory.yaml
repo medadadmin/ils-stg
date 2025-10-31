@@ -19,6 +19,14 @@ spec:
       namespace: folio
     spec:
       affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
         podAffinity: {}
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -35,11 +43,15 @@ spec:
         - env:
             - name: JAVA_OPTIONS
               value: '-Dorg.folio.metadata.inventory.storage.type=okapi -Dhttp.port=8081 '
+            - name: NEW_RELIC_APP_NAME
+              value: mod-inventory
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://otel-collector:8081
           envFrom:
             - secretRef:
                 name: db-connect
                 optional: true
-          image: folioorg/mod-inventory:21.1.9
+          image: jed.ocir.io/axhxgarudf1b/mod-inventory:21.1.7.1.0.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 30
@@ -66,7 +78,7 @@ spec:
             timeoutSeconds: 5
           resources:
             limits:
-              cpu: '2'
+              cpu: "2"
               memory: 6000Mi
             requests:
               cpu: 50m
@@ -99,4 +111,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

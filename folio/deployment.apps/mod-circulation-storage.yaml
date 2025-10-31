@@ -18,12 +18,26 @@ spec:
         workload.user.cattle.io/workloadselector: deployment-folio-mod-circulation-storage
       namespace: folio
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
       containers:
-        - envFrom:
+        - env:
+            - name: OTEL_SERVICE_NAME
+              value: mod-circulation-storage
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://otel-collector:8081
+          envFrom:
             - secretRef:
                 name: db-connect
                 optional: false
-          image: folioorg/mod-circulation-storage:17.4.0
+          image: jed.ocir.io/axhxgarudf1b/mod-circulation-storage:17.4.0.1.0.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -46,7 +60,7 @@ spec:
             timeoutSeconds: 5
           resources:
             limits:
-              cpu: '1'
+              cpu: "1"
               memory: 6000Mi
             requests:
               cpu: 50m
@@ -79,4 +93,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

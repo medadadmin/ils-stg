@@ -30,7 +30,7 @@ spec:
             - secretRef:
                 name: db-connect
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-label-printing:3.8.2
+          image: jed.ocir.io/axhxgarudf1b/mod-label-printing:3.10.2
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -85,4 +85,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

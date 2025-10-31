@@ -24,9 +24,6 @@ spec:
             - secretRef:
                 name: db-connect
                 optional: true
-            - secretRef:
-                name: mod-reading-room
-                optional: false
           image: folioorg/mod-reading-room:1.2.1
           imagePullPolicy: IfNotPresent
           livenessProbe:
@@ -50,7 +47,7 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: '1'
+              cpu: "1"
               memory: 6000Mi
             requests:
               cpu: 50m
@@ -77,8 +74,18 @@ spec:
           terminationMessagePolicy: File
           tty: true
       dnsPolicy: ClusterFirst
+      imagePullSecrets:
+        - name: dockerhub
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

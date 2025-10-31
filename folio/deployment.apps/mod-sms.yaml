@@ -18,11 +18,20 @@ spec:
       name: mod-sms
       namespace: folio
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
       containers:
         - envFrom:
             - secretRef:
                 name: db-connect
-          image: jed.ocir.io/axhxgarudf1b/mod-sms:1.1.5
+          image: jed.ocir.io/axhxgarudf1b/mod-sms:1.1.8
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -77,4 +86,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

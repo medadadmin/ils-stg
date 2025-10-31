@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-ui
+  namespace: folio
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 0
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: apps.deployment-folio-app-ui
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: tenant-ui
+        workload.user.cattle.io/workloadselector: apps.deployment-folio-app-ui
+      name: app-ui
+      namespace: folio
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - platform
+        podAffinity: {}
+        podAntiAffinity: {}
+      containers:
+        - env:
+            - name: BASE_API_URL
+              value: https://api-sep.medadstg.com
+            - name: TENANT
+              value: medad
+            - name: SSO_CLIENT_ID
+              value: sep-client
+            - name: SSO_URL
+              value: https://sso.medadstg.com/realms/medad
+            - name: DEFAULT_APP_LANG
+              value: en
+            - name: CLARITY_PROJECT_ID
+              value: qjvw0ay6jz
+            - name: FEATBIT_SDK_KEY
+              value: 8EtV3kTKi0SrUxoHHupGWAzw0l-3ce6kGJGgyt3tp-_A
+            - name: FEATBIT_STREAMING_URI
+              value: wss://featbit-evaluation.qa.medad.com
+            - name: FEATBIT_EVENTS_URL
+              value: https://featbit-evaluation.qa.medad.com
+            - name: FEATBIT_POLLING_URI
+              value: https://featbit-evaluation.qa.medad.com
+          image: jed.ocir.io/axhxgarudf1b/medad-sep-web-app-ui:ils-v1.84.0
+          imagePullPolicy: Always
+          name: tenant-ui
+          ports:
+            - containerPort: 80
+              name: 80tcp
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 100m
+              memory: 4000Mi
+            requests:
+              cpu: 10m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+        - name: oracle-reg
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

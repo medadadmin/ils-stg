@@ -18,16 +18,36 @@ spec:
         workload.user.cattle.io/workloadselector: deployment-folio-mod-authtoken
       namespace: folio
     spec:
-      affinity: {}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
       containers:
         - env:
             - name: JAVA_OPTIONS
               value: '-Djwt.signing.key=CorrectBatteryHorseStaple '
+            - name: NEW_RELIC_APP_NAME
+              value: mod-authtoken
+            - name: ENABLE_CONCURRENT_TOKENS_LIMIT_FEATURE
+              value: "false"
+            - name: TOKEN_EXPIRATION_SECONDS
+              value: accessToken:3600,refreshToken:604800
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://otel-collector:8081
+            - name: OTEL_JAVAAGENT_ENABLED
+              value: "true"
+            - name: OTEL_SERVICE_NAME
+              value: mod-authtoken
           envFrom:
             - secretRef:
                 name: db-connect
                 optional: true
-          image: folioorg/mod-authtoken:2.16.2
+          image: jed.ocir.io/axhxgarudf1b/mod-authtoken:2.16.2.1.0.1
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -50,7 +70,7 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: '1'
+              cpu: "1"
               memory: 6000Mi
             requests:
               cpu: 50m
@@ -82,4 +102,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

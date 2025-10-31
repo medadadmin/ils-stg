@@ -17,18 +17,35 @@ spec:
         workload.user.cattle.io/workloadselector: deployment-folio-mod-search
       namespace: folio
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values:
+                      - ils
       containers:
         - env:
             - name: INITIAL_LANGUAGES
               value: eng,ara,fre
             - name: INSTANCE_SUBJECTS_INDEXING_RETRY_ATTEMPTS
-              value: '2'
+              value: "2"
             - name: KAFKA_EVENTS_CONCURRENCY
-              value: '2'
+              value: "2"
             - name: KAFKA_AUTHORITIES_CONCURRENCY
-              value: '2'
+              value: "2"
             - name: SPRING_KAFKA_CONSUMER_MAX-POLL-RECORDS
-              value: '50'
+              value: "50"
+            - name: OTEL_SERVICE_NAME
+              value: mod-search
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://otel-collector:8081
+            - name: OTEL_JAVAAGENT_ENABLED
+              value: "true"
+            - name: OKAPI_URL
+              value: https://okapi.medadstg.com
           envFrom:
             - secretRef:
                 name: db-connect
@@ -36,7 +53,7 @@ spec:
             - secretRef:
                 name: mod-search
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-search:5.0.5.1.0.0
+          image: jed.ocir.io/axhxgarudf1b/mod-search:5.0.5.1.0.2
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -63,7 +80,7 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: '1'
+              cpu: "1"
               memory: 6000Mi
             requests:
               cpu: 50m
@@ -95,4 +112,12 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      initContainers: []
+      tolerations:
+        - effect: NoSchedule
+          key: product
+          operator: Equal
+          value: ils
+        - effect: NoExecute
+          key: product
+          operator: Equal
+          value: ils

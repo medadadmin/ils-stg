@@ -8,9 +8,10 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 100Gi
-  storageClassName: nfs-folio
+  storageClassName: oci
   volumeMode: Filesystem
-  volumeName: pvc-34c875d2-2285-4e29-a411-8963fed4ce18
+  volumeName: medad-ils
