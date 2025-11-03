@@ -3,6 +3,8 @@ kind: StatefulSet
 metadata:
   name: okapi
   namespace: folio
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   persistentVolumeClaimRetentionPolicy:
     whenDeleted: Retain
