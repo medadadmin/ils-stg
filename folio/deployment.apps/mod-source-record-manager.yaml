@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: mod-source-record-manager
   namespace: folio
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   minReadySeconds: 30
   progressDeadlineSeconds: 300

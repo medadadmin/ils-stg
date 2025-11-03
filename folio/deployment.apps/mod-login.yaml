@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: mod-login
   namespace: folio
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   minReadySeconds: 30
   progressDeadlineSeconds: 300

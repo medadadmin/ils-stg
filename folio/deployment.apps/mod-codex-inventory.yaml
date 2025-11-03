@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: mod-codex-inventory
   namespace: folio
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
 spec:
   minReadySeconds: 30
   progressDeadlineSeconds: 300

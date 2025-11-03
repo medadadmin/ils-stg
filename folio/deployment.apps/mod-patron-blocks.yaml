@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: mod-patron-blocks
   namespace: folio
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   minReadySeconds: 30
   progressDeadlineSeconds: 300

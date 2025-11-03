@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: mod-authtoken
   namespace: folio
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   minReadySeconds: 30
   progressDeadlineSeconds: 300
