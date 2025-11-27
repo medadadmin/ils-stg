@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mod-settings
-  namespace: folio
   annotations:
     argocd.argoproj.io/sync-wave: "4"
+  name: mod-settings
+  namespace: folio
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -14,6 +14,7 @@ spec:
       workload.user.cattle.io/workloadselector: apps.deployment-folio-mod-settings
   template:
     metadata:
+      annotations: {}
       creationTimestamp: null
       labels:
         workload.user.cattle.io/workloadselector: apps.deployment-folio-mod-settings

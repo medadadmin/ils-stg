@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
+  annotations: {}
   name: mod-login-saml
   namespace: folio
 spec:

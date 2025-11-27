@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations: {}
   name: mpl-stripes
   namespace: folio
 spec:
@@ -12,6 +13,7 @@ spec:
       workload.user.cattle.io/workloadselector: apps.deployment-folio-mpl-stripes
   template:
     metadata:
+      annotations: {}
       creationTimestamp: null
       labels:
         workload.user.cattle.io/workloadselector: apps.deployment-folio-mpl-stripes

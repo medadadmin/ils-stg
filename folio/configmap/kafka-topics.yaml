@@ -48,5 +48,6 @@ data:
   DI_SRS_MARC_HOLDINGS_RECORD_UPDATED_PARTITIONS: "10"
 kind: ConfigMap
 metadata:
+  annotations: {}
   name: kafka-topics
   namespace: folio

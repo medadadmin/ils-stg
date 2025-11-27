@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations: {}
   name: mod-mosaic
   namespace: folio
 spec:
@@ -13,6 +14,7 @@ spec:
       workload.user.cattle.io/workloadselector: deployment-folio-mod-mosaic
   template:
     metadata:
+      annotations: {}
       creationTimestamp: null
       labels:
         workload: folio_module

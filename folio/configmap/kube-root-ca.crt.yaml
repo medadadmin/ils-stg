@@ -24,5 +24,6 @@ data:
     -----END CERTIFICATE-----
 kind: ConfigMap
 metadata:
+  annotations: {}
   name: kube-root-ca.crt
   namespace: folio

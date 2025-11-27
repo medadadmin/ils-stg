@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mod-circulation
-  namespace: folio
   annotations:
     argocd.argoproj.io/sync-wave: "2"
+  name: mod-circulation
+  namespace: folio
 spec:
   minReadySeconds: 30
   progressDeadlineSeconds: 300
@@ -15,6 +15,7 @@ spec:
       workload.user.cattle.io/workloadselector: deployment-folio-mod-circulation
   template:
     metadata:
+      annotations: {}
       creationTimestamp: null
       labels:
         workload.user.cattle.io/workloadselector: deployment-folio-mod-circulation
@@ -49,7 +50,7 @@ spec:
             - secretRef:
                 name: db-connect
                 optional: true
-          image: jed.ocir.io/axhxgarudf1b/mod-circulation:24.4.11.1.0.2
+          image: jed.ocir.io/axhxgarudf1b/mod-circulation:24.4.11.1.0.3
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10

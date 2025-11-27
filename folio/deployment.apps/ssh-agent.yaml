@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations: {}
   name: ssh-agent
   namespace: folio
 spec:

@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations: {}
   name: mod-remote-storage-reconciliation
   namespace: folio
 spec:
@@ -12,6 +13,7 @@ spec:
       workload.user.cattle.io/workloadselector: apps.deployment-folio-mod-remote-storage-reconciliation
   template:
     metadata:
+      annotations: {}
       creationTimestamp: null
       labels:
         workload.user.cattle.io/workloadselector: apps.deployment-folio-mod-remote-storage-reconciliation

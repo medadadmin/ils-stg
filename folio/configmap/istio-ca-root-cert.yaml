@@ -21,5 +21,6 @@ data:
     -----END CERTIFICATE-----
 kind: ConfigMap
 metadata:
+  annotations: {}
   name: istio-ca-root-cert
   namespace: folio

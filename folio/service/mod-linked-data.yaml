@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
+  annotations: {}
   name: mod-linked-data
   namespace: folio
 spec:

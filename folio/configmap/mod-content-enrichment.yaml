@@ -3,5 +3,6 @@ data:
   medad.contentenrichment.service.url: https://services.medadstg.com/content-enrichment/api
 kind: ConfigMap
 metadata:
+  annotations: {}
   name: mod-content-enrichment
   namespace: folio

@@ -3,5 +3,6 @@ data:
   org.naseej.ingestor.server.url: https://portal-ingestor.medadstg.com
 kind: ConfigMap
 metadata:
+  annotations: {}
   name: mod-portal-ingestor
   namespace: folio

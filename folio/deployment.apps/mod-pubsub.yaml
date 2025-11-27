@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mod-pubsub
-  namespace: folio
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
+  name: mod-pubsub
+  namespace: folio
 spec:
   minReadySeconds: 30
   progressDeadlineSeconds: 300
@@ -15,6 +15,7 @@ spec:
       workload.user.cattle.io/workloadselector: deployment-folio-mod-pubsub
   template:
     metadata:
+      annotations: {}
       creationTimestamp: null
       labels:
         workload: folio_module
@@ -35,7 +36,7 @@ spec:
             - secretRef:
                 name: db-connect
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-pubsub:2.16.0.1.0.0
+          image: jed.ocir.io/axhxgarudf1b/mod-pubsub:2.16.0.1.0.1
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10

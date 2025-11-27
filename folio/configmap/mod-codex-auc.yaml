@@ -3,5 +3,6 @@ data:
   org.naseej.auc.service.url: https://services.medadstg.com/auc-bib/api
 kind: ConfigMap
 metadata:
+  annotations: {}
   name: mod-codex-auc
   namespace: folio

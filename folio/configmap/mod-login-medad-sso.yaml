@@ -3,5 +3,6 @@ data:
   org.medad.sso.url: https://sso.medadstg.com
 kind: ConfigMap
 metadata:
+  annotations: {}
   name: mod-login-medad-sso
   namespace: folio

@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mod-authtoken
-  namespace: folio
   annotations:
     argocd.argoproj.io/sync-wave: "1"
+  name: mod-authtoken
+  namespace: folio
 spec:
   minReadySeconds: 30
   progressDeadlineSeconds: 300
@@ -15,6 +15,7 @@ spec:
       workload.user.cattle.io/workloadselector: deployment-folio-mod-authtoken
   template:
     metadata:
+      annotations: {}
       creationTimestamp: null
       labels:
         workload.user.cattle.io/workloadselector: deployment-folio-mod-authtoken
@@ -36,7 +37,7 @@ spec:
             - name: NEW_RELIC_APP_NAME
               value: mod-authtoken
             - name: ENABLE_CONCURRENT_TOKENS_LIMIT_FEATURE
-              value: "false"
+              value: "true"
             - name: TOKEN_EXPIRATION_SECONDS
               value: accessToken:3600,refreshToken:604800
             - name: OTEL_EXPORTER_OTLP_ENDPOINT
@@ -49,7 +50,7 @@ spec:
             - secretRef:
                 name: db-connect
                 optional: true
-          image: jed.ocir.io/axhxgarudf1b/mod-authtoken:2.16.2.1.0.1
+          image: jed.ocir.io/axhxgarudf1b/mod-authtoken:2.16.2.1.0.4
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10

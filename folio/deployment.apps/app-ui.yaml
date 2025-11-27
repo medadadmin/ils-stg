@@ -1,11 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations: {}
   name: app-ui
   namespace: folio
 spec:
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
@@ -27,7 +28,7 @@ spec:
                   - key: product
                     operator: In
                     values:
-                      - platform
+                      - ils
         podAffinity: {}
         podAntiAffinity: {}
       containers:

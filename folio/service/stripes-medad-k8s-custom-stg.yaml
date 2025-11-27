@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
+  annotations: {}
   name: stripes-medad-k8s-custom-stg
   namespace: folio
 spec:

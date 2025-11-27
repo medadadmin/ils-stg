@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mod-finance
-  namespace: folio
   annotations:
     argocd.argoproj.io/sync-wave: "5"
+  name: mod-finance
+  namespace: folio
 spec:
   minReadySeconds: 30
   progressDeadlineSeconds: 300
@@ -15,6 +15,7 @@ spec:
       workload.user.cattle.io/workloadselector: deployment-folio-mod-finance
   template:
     metadata:
+      annotations: {}
       creationTimestamp: null
       labels:
         workload: folio_module
@@ -25,7 +26,7 @@ spec:
         - env:
             - name: TZ
               value: Africa/Cairo
-          image: jed.ocir.io/axhxgarudf1b/mod-finance:5.1.1.1.0.1
+          image: jed.ocir.io/axhxgarudf1b/mod-finance:5.1.1.1.0.2
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10

@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mod-entities-links
-  namespace: folio
   annotations:
     argocd.argoproj.io/sync-wave: "5"
+  name: mod-entities-links
+  namespace: folio
 spec:
   minReadySeconds: 30
   progressDeadlineSeconds: 300
@@ -15,6 +15,7 @@ spec:
       workload.user.cattle.io/workloadselector: apps.deployment-folio-mod-entities-links
   template:
     metadata:
+      annotations: {}
       creationTimestamp: null
       labels:
         workload: folio_module

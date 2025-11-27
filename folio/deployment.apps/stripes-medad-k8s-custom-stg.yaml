@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations: {}
   name: stripes-medad-k8s-custom-stg
   namespace: folio
 spec:
@@ -12,6 +13,7 @@ spec:
       workload.user.cattle.io/workloadselector: deployment-folio-stripes-medad-k8s-custom-stg
   template:
     metadata:
+      annotations: {}
       creationTimestamp: null
       labels:
         workload.user.cattle.io/workloadselector: deployment-folio-stripes-medad-k8s-custom-stg
@@ -31,7 +33,7 @@ spec:
               value: https://okapi.medadstg.com
             - name: TENANT_NAME
               value: medad
-          image: jed.ocir.io/axhxgarudf1b/medad-ils-ui:v3.9.0-5.24.0
+          image: jed.ocir.io/axhxgarudf1b/medad-ils-ui:v3.9.0-5.26.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10

@@ -3,5 +3,6 @@ data:
   HV_URL: https://services.medadstg.com/heading-verification/api
 kind: ConfigMap
 metadata:
+  annotations: {}
   name: mod-heading-verification
   namespace: folio

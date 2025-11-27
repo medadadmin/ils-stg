@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mod-users
-  namespace: folio
   annotations:
     argocd.argoproj.io/sync-wave: "1"
+  name: mod-users
+  namespace: folio
 spec:
   minReadySeconds: 30
   progressDeadlineSeconds: 300
@@ -15,6 +15,7 @@ spec:
       workload.user.cattle.io/workloadselector: deployment-folio-mod-users
   template:
     metadata:
+      annotations: {}
       creationTimestamp: null
       labels:
         workload.user.cattle.io/workloadselector: deployment-folio-mod-users
@@ -43,7 +44,7 @@ spec:
             - secretRef:
                 name: mod-users
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-users:19.5.2.1.0.0
+          image: jed.ocir.io/axhxgarudf1b/mod-users:19.5.2.1.0.2
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10

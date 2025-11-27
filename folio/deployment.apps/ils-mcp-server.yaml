@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations: {}
   name: ils-mcp-server
   namespace: folio
 spec:
@@ -25,7 +26,7 @@ spec:
               value: 823c6c1972b18720046e0e2c530f02ef567d97b42335def0ba10d8a35015097d7f7ed
             - name: OUTLET_HTTP
               value: "true"
-          image: jed.ocir.io/axhxgarudf1b/ils-mcp-server:v2.0.9
+          image: jed.ocir.io/axhxgarudf1b/ils-mcp-server:v2.1.1
           imagePullPolicy: Always
           name: ils-mcp-server
           resources: {}

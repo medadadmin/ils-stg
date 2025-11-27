@@ -1,11 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations: {}
   name: admin-ui
   namespace: folio
 spec:
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
@@ -16,6 +17,7 @@ spec:
       labels:
         app: nginx
         workload.user.cattle.io/workloadselector: apps.deployment-folio-admin-ui
+      namespace: folio
     spec:
       affinity:
         nodeAffinity:
@@ -25,7 +27,7 @@ spec:
                   - key: product
                     operator: In
                     values:
-                      - platform
+                      - ils
       containers:
         - env:
             - name: BASE_API_URL
