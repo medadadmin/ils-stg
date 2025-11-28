@@ -27,7 +27,7 @@ spec:
             - secretRef:
                 name: mod-reports
                 optional: false
-          image: medad_devops:2.1.0
+          image: mod-reports:2.1.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
