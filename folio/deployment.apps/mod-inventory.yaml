@@ -50,6 +50,8 @@ spec:
               value: mod-inventory
             - name: OTEL_EXPORTER_OTLP_ENDPOINT
               value: http://otel-collector:8081
+            - name: AUTHORITY_EXTENDED
+              value: 'true'
           envFrom:
             - secretRef:
                 name: db-connect
