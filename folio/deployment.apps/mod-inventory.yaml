@@ -35,6 +35,8 @@ spec:
         - env:
             - name: JAVA_OPTIONS
               value: '-Dorg.folio.metadata.inventory.storage.type=okapi -Dhttp.port=8081 '
+            - name: AUTHORITY_EXTENDED
+              value: 'true'
           envFrom:
             - secretRef:
                 name: db-connect
