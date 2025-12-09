@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quality-stripes
+  namespace: folio
+  labels:
+    app.kubernetes.io/name: quality-stripes
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: quality-stripes
+
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: quality-stripes
+
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: product
+                    operator: In
+                    values: ["ils"]
+
+      imagePullSecrets:
+        - name: oracle-reg
+
+      containers:
+        - name: stripes-medad-k8s-custom-stg
+          image: jed.ocir.io/axhxgarudf1b/medad-ils-ui:v3.9.0-5.26.0
+          imagePullPolicy: IfNotPresent
+
+          env:
+            - name: OKAPI_URL
+              value: "https://okapi.medadstg.com"
+            - name: TENANT_NAME
+              value: "quality"
+
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+
+          startupProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+
+          resources:
+            limits:
+              cpu: 500m
+              memory: 5000Mi
+            requests:
+              cpu: 50m
+              memory: 128Mi
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+
+      restartPolicy: Always
+      dnsPolicy: ClusterFirst
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
