@@ -55,7 +55,7 @@ spec:
             - secretRef:
                 name: db-connect
                 optional: true
-          image: 'jed.ocir.io/axhxgarudf1b/mod-inventory-storage:29.0.12.1.0.2'
+          image: 'jed.ocir.io/axhxgarudf1b/mod-inventory-storage:29.0.12.1.0.3'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
