@@ -40,6 +40,10 @@ spec:
               value: ai-operations-stg
             - name: OTEL_EXPORTER_OTLP_ENDPOINT
               value: http://otel-collector:8081
+            - name: OPENAI_MODEL
+              value: gpt-4o-mini
+            - name: OPENAI_BASE_URL
+              value: https://pulse-gateway.qa.medad.com/
           envFrom:
             - secretRef:
                 name: db-connect
