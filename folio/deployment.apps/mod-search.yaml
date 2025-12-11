@@ -56,7 +56,7 @@ spec:
             - secretRef:
                 name: mod-search
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-codex-inventory:2.3.0.1.3.8
+          image: jed.ocir.io/axhxgarudf1b/mod-search:5.0.5.1.0.7
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
