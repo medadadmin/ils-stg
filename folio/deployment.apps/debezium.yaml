@@ -50,7 +50,7 @@ spec:
               value: "3"
             - name: CONNECT_TOPIC_CREATION_DEFAULT_CLEANUP_POLICY
               value: compact
-          image: debezium/connect:3.0.0.Final
+          image: quay.io/debezium/connect:3.3.2.Final
           imagePullPolicy: Always
           livenessProbe:
             exec:
