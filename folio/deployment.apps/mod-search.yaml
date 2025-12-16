@@ -56,7 +56,7 @@ spec:
             - secretRef:
                 name: mod-search
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-search:5.0.5.1.0.9
+          image: jed.ocir.io/axhxgarudf1b/mod-search:5.0.5.1.2.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
