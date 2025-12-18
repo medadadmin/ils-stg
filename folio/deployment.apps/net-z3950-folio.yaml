@@ -27,7 +27,7 @@ spec:
               value: dev_admin
             - name: OKAPI_PASSWORD
               value: Medad_admin@123
-          image: jed.ocir.io/axhxgarudf1b/net-z3950-folio:latest-74116
+          image: jed.ocir.io/axhxgarudf1b/net-z3950-folio:latest-74118
           imagePullPolicy: Always
           name: net-z3950-folio
           ports:
