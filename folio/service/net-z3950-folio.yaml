@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: net-z3950-folio
+  namespace: folio
+spec:
+  ports:
+    - name: p9997
+      port: 9997
+      protocol: TCP
+      targetPort: 9997
+  selector:
+    workload.user.cattle.io/workloadselector: apps.deployment-folio-net-z3950-folio
+  sessionAffinity: None
+  type: ClusterIP
