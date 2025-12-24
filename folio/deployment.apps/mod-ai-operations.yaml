@@ -56,7 +56,7 @@ spec:
             - secretRef:
                 name: gcp-secrets
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-ai-operations:1.3.22
+          image: jed.ocir.io/axhxgarudf1b/mod-ai-operations:1.3.23
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
