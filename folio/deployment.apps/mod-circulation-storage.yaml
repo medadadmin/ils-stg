@@ -40,7 +40,7 @@ spec:
             - secretRef:
                 name: db-connect
                 optional: false
-          image: jed.ocir.io/axhxgarudf1b/mod-circulation-storage:17.4.0.1.0.4
+          image: jed.ocir.io/axhxgarudf1b/mod-circulation-storage:17.4.1.1.0.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
