@@ -33,7 +33,7 @@ spec:
               value: https://okapi.medadstg.com
             - name: TENANT_NAME
               value: medad
-          image: jed.ocir.io/axhxgarudf1b/medad-ils-ui:v3.9.0-5.41.0
+          image: jed.ocir.io/axhxgarudf1b/medad-ils-ui:v3.9.0-5.42.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
