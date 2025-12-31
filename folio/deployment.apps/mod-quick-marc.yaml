@@ -38,7 +38,7 @@ spec:
             - secretRef:
                 name: db-connect
                 optional: true
-          image: jed.ocir.io/axhxgarudf1b/mod-quick-marc:7.0.0.1.0.1
+          image: jed.ocir.io/axhxgarudf1b/mod-quick-marc:7.0.0.1.0.2
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
